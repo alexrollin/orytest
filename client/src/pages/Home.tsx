@@ -11,17 +11,18 @@ export default function Home() {
     <div className="min-h-screen w-full flex items-center justify-center bg-background p-4">
       <RainbowContainer>
         <div className="flex flex-col items-center gap-8 p-8 text-center">
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground">
-            Click the button to reveal the kasm installer download!
-          </h1>
-
           {!showDownload ? (
-            <AnimatedButton onClick={() => setShowDownload(true)}>
-              Reveal Download
-            </AnimatedButton>
+            <div className={showDownload ? "animate-fade-out" : "animate-fade-in"}>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
+                Click the button to reveal the kasm installer download!
+              </h1>
+              <AnimatedButton onClick={() => setShowDownload(true)}>
+                Reveal Download
+              </AnimatedButton>
+            </div>
           ) : (
-            <div className="flex flex-col items-center gap-4">
-              <h2 className="text-xl font-semibold text-foreground">
+            <div className={!showDownload ? "animate-fade-out" : "animate-fade-in"}>
+              <h2 className="text-xl font-semibold text-foreground mb-4">
                 Kasm Installer
               </h2>
               <Button 

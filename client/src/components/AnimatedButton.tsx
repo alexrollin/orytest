@@ -11,6 +11,7 @@ export default function AnimatedButton({ children, className, onClick, ...props 
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 300); // Reset after animation
     onClick?.(e);
   };
 
