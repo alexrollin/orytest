@@ -28,6 +28,12 @@ RUN npm install --production
 COPY --from=builder /app/dist/public ./server/public
 COPY --from=builder /app/dist/index.js ./dist/index.js
 
+# Ensure correct permissions
+RUN chown -R node:node /app
+
+# Use non-root user
+USER node
+
 # Expose port 5000
 EXPOSE 5000
 

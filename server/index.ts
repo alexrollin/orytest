@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import path from "path";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get('/health', (_req, res) => {
   res.status(200).send('OK');
 });
 
+// Log all requests
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -36,18 +38,16 @@ app.use((req, res, next) => {
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
+    let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+    if (capturedJsonResponse) {
+      logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
     }
+
+    if (logLine.length > 80) {
+      logLine = logLine.slice(0, 79) + "…";
+    }
+
+    log(logLine);
   });
 
   next();
@@ -70,6 +70,14 @@ app.use((req, res, next) => {
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
+    // Log static files directory
+    const staticDir = path.resolve(__dirname, "public");
+    log(`Serving static files from: ${staticDir}`);
+
+    // Log environment info
+    log(`Environment: ${process.env.NODE_ENV}`);
+    log(`Port: ${process.env.PORT || 5000}`);
+
     serveStatic(app);
   }
 
