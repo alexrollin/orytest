@@ -1,6 +1,6 @@
 # Kasm Installer Download
 
-A simple single-page application with an animated button reveal for the Kasm installer download.
+A simple web application for downloading the Kasm installer.
 
 ## Docker Deployment
 
@@ -16,28 +16,25 @@ docker run -p 5000:5000 kasm-download
 
 The application will be available at `http://localhost:5000`.
 
-## Deployment on Coolify
-Use the following settings for deployment:
+### Coolify Settings
 
-- Build Pack: Docker
-- Docker Settings:
-  - Docker Compose: No
-  - Dockerfile Path: ./Dockerfile
-  - Docker Registry: Default
-- Port: 5000
-- Environment Variables:
-  - NODE_ENV: production
+1. Build Pack: Docker
+2. Docker Settings:
+   - Docker Compose: No
+   - Dockerfile Path: ./Dockerfile
+   - Docker Registry: Default
+3. Port: 5000
+4. Environment Variables:
+   - NODE_ENV: production
 
-### Important Notes
+### Verification Steps
 
-1. Make sure to select Docker as the build pack
-2. The application runs on port 5000, ensure this port is exposed
-3. Wait for the build process to complete before accessing the application
-4. The build process will:
-   - Build the frontend (Vite)
-   - Bundle the backend (esbuild)
-   - Create an optimized production Docker image
-   - Start the production server
+1. Check if the server is running:
+   - Access the health check endpoint at `/health`
+   - Should return "OK" if the server is running
+2. Access the main page:
+   - Should show a download button
+   - Clicking the button should download the installer
 
 ### Troubleshooting Deployment
 
@@ -48,13 +45,14 @@ If the deployment fails:
 4. Make sure Docker is selected as the build pack
 5. Try accessing the health check endpoint at `/health`
 
+
 ## Development
 
 To run locally:
 
 ```bash
 npm install
-npm run dev
+node server/index.js
 ```
 
 The application will be available at `http://localhost:5000`.

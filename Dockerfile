@@ -1,40 +1,19 @@
-# Build stage
-FROM node:20-slim AS builder
+FROM node:20-slim
 
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
-
-# Copy source code
-COPY . .
-
-# Build the application
-RUN npm run build
-
-# Production stage
-FROM node:20-slim
-
-WORKDIR /app
-
-# Copy package files and install production dependencies only
-COPY package*.json ./
+# Install only production dependencies
 RUN npm install --production
 
-# Copy built files from builder stage
-COPY --from=builder /app/dist/public ./server/public
-COPY --from=builder /app/dist/index.js ./dist/index.js
+# Copy source code and static files
+COPY server ./server
 
-# Ensure correct permissions
-RUN chown -R node:node /app
+# Create public directory and copy static files
+RUN mkdir -p server/public
 
-# Use non-root user
-USER node
-
-# Expose port 5000
 EXPOSE 5000
 
 # Set production environment
@@ -42,4 +21,4 @@ ENV NODE_ENV=production \
     PORT=5000
 
 # Start the server
-CMD ["node", "dist/index.js"]
+CMD ["node", "server/index.js"]
