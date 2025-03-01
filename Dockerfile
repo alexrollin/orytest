@@ -5,14 +5,19 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies including TypeScript
+# Install all dependencies (including dev dependencies for TypeScript)
 RUN npm install
 
 # Copy source code and static files
 COPY . .
 
-# Compile TypeScript
-RUN npx tsc server/index.ts --outDir dist --esModuleInterop true
+# Compile TypeScript and copy static files
+RUN npx tsc server/index.ts --outDir dist --esModuleInterop true && \
+    mkdir -p dist/static && \
+    cp -r server/static/* dist/static/
+
+# Clean up dev dependencies
+RUN npm prune --production
 
 EXPOSE 5000
 

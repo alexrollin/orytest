@@ -7,14 +7,34 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// Log startup configuration
+console.log('Starting server with configuration:');
+console.log('- Environment:', process.env.NODE_ENV);
+console.log('- Port:', process.env.PORT || 5000);
+console.log('- Static files directory:', path.join(__dirname, 'static'));
+
 // Health check endpoint
 app.get('/health', (_req, res) => {
+  console.log('Health check requested');
   res.status(200).send('OK');
 });
 
 // Serve static HTML file
 app.get('/', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'static', 'index.html'));
+  const staticFilePath = path.join(__dirname, 'static', 'index.html');
+  console.log('Serving static file from:', staticFilePath);
+
+  try {
+    res.sendFile(staticFilePath, (err) => {
+      if (err) {
+        console.error('Error serving static file:', err);
+        res.status(500).send('Error serving static file');
+      }
+    });
+  } catch (err) {
+    console.error('Exception while serving static file:', err);
+    res.status(500).send('Server error');
+  }
 });
 
 // Log all requests
