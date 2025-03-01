@@ -10,7 +10,7 @@ app.get('/health', (_req, res) => {
 
 // Serve static HTML file
 app.get('/', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'static', 'index.html'));
 });
 
 // Log all requests

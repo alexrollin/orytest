@@ -8,11 +8,8 @@ COPY package*.json ./
 # Install only production dependencies
 RUN npm install --production
 
-# Copy source code and static files
+# Copy server code and static files
 COPY server ./server
-
-# Create public directory and copy static files
-RUN mkdir -p server/public
 
 EXPOSE 5000
 
