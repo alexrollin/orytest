@@ -7,7 +7,7 @@ A simple single-page application with an animated button reveal for the Kasm ins
 Use the following settings for deployment:
 
 - Build Pack: Nixpack
-- Build Command: `npm run build`
+- Build Command: `npm run build && mkdir -p server/public && cp -r dist/public/* server/public/`
 - Start Command: `npm start`
 - Port: 5000
 
