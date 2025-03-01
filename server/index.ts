@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// ES modules compatibility
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -43,7 +44,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const port = process.env.PORT || 5000;
+const port = Number(process.env.PORT) || 5000;
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`);
 });

@@ -12,9 +12,9 @@ RUN npm install
 COPY . .
 
 # Compile TypeScript and copy static files
-RUN npx tsc server/index.ts --outDir dist --esModuleInterop true && \
-    mkdir -p dist/static && \
-    cp -r server/static/* dist/static/
+RUN npx tsc && \
+    mkdir -p dist/server/static && \
+    cp -r server/static/* dist/server/static/
 
 # Clean up dev dependencies
 RUN npm prune --production
@@ -26,4 +26,4 @@ ENV NODE_ENV=production \
     PORT=5000
 
 # Start the server
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server/index.js"]

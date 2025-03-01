@@ -1,0 +1,348 @@
+tarting deployment of alexrollin/orytest:main to routes-vultr-coolify-app.
+2025-Mar-01 23:11:41.816847
+Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.7.
+2025-Mar-01 23:11:42.261286
+[CMD]: docker rm -f l4o0w8k84k4s0okkggs4cowc
+2025-Mar-01 23:11:42.261286
+Error response from daemon: No such container: l4o0w8k84k4s0okkggs4cowc
+2025-Mar-01 23:11:42.739179
+[CMD]: docker run -d --network coolify --name l4o0w8k84k4s0okkggs4cowc --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.7
+2025-Mar-01 23:11:42.739179
+0766b0f56d15b0cf74d413a9f47acf7fb122a4c888baf97a6c4aa8486c86c934
+2025-Mar-01 23:11:44.315258
+[CMD]: docker exec l4o0w8k84k4s0okkggs4cowc bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote https://x-access-token:<REDACTED>@github.com/alexrollin/orytest.git main'
+2025-Mar-01 23:11:44.315258
+b7166fe81e0f14c1225d3945a7e6cdedad80b895	refs/heads/main
+2025-Mar-01 23:11:44.546951
+----------------------------------------
+2025-Mar-01 23:11:44.553039
+Importing alexrollin/orytest:main (commit sha HEAD) to /artifacts/l4o0w8k84k4s0okkggs4cowc.
+2025-Mar-01 23:11:45.037355
+[CMD]: docker exec l4o0w8k84k4s0okkggs4cowc bash -c 'git clone -b "main" https://x-access-token:<REDACTED>@github.com/alexrollin/orytest.git /artifacts/l4o0w8k84k4s0okkggs4cowc && cd /artifacts/l4o0w8k84k4s0okkggs4cowc && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git submodule update --init --recursive && cd /artifacts/l4o0w8k84k4s0okkggs4cowc && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git lfs pull'
+2025-Mar-01 23:11:45.037355
+Cloning into '/artifacts/l4o0w8k84k4s0okkggs4cowc'...
+2025-Mar-01 23:11:46.999737
+[CMD]: docker exec l4o0w8k84k4s0okkggs4cowc bash -c 'cd /artifacts/l4o0w8k84k4s0okkggs4cowc && git log -1 b7166fe81e0f14c1225d3945a7e6cdedad80b895 --pretty=%B'
+2025-Mar-01 23:11:46.999737
+Update Dockerfile to handle TypeScript compilation
+2025-Mar-01 23:11:47.501981
+Image not found (dkcco4g4so48skgcs4wo4ssg:b7166fe81e0f14c1225d3945a7e6cdedad80b895). Building new image.
+2025-Mar-01 23:11:50.325141
+[CMD]: docker exec l4o0w8k84k4s0okkggs4cowc bash -c 'cat /artifacts/l4o0w8k84k4s0okkggs4cowc/Dockerfile'
+2025-Mar-01 23:11:50.325141
+FROM node:20-slim
+2025-Mar-01 23:11:50.325141
+2025-Mar-01 23:11:50.325141
+WORKDIR /app
+2025-Mar-01 23:11:50.325141
+2025-Mar-01 23:11:50.325141
+# Copy package files
+2025-Mar-01 23:11:50.325141
+COPY package*.json ./
+2025-Mar-01 23:11:50.325141
+2025-Mar-01 23:11:50.325141
+# Install dependencies including TypeScript
+2025-Mar-01 23:11:50.325141
+RUN npm install
+2025-Mar-01 23:11:50.325141
+2025-Mar-01 23:11:50.325141
+# Copy source code and static files
+2025-Mar-01 23:11:50.325141
+COPY . .
+2025-Mar-01 23:11:50.325141
+2025-Mar-01 23:11:50.325141
+# Compile TypeScript
+2025-Mar-01 23:11:50.325141
+RUN npx tsc server/index.ts --outDir dist --esModuleInterop true
+2025-Mar-01 23:11:50.325141
+2025-Mar-01 23:11:50.325141
+EXPOSE 5000
+2025-Mar-01 23:11:50.325141
+2025-Mar-01 23:11:50.325141
+# Set production environment
+2025-Mar-01 23:11:50.325141
+ENV NODE_ENV=production \
+2025-Mar-01 23:11:50.325141
+PORT=5000
+2025-Mar-01 23:11:50.325141
+2025-Mar-01 23:11:50.325141
+# Start the server
+2025-Mar-01 23:11:50.325141
+CMD ["node", "dist/index.js"]
+2025-Mar-01 23:11:51.315450
+[CMD]: docker exec l4o0w8k84k4s0okkggs4cowc bash -c 'cat /artifacts/l4o0w8k84k4s0okkggs4cowc/Dockerfile'
+2025-Mar-01 23:11:51.315450
+FROM node:20-slim
+2025-Mar-01 23:11:51.315450
+2025-Mar-01 23:11:51.315450
+WORKDIR /app
+2025-Mar-01 23:11:51.315450
+2025-Mar-01 23:11:51.315450
+# Copy package files
+2025-Mar-01 23:11:51.315450
+COPY package*.json ./
+2025-Mar-01 23:11:51.315450
+2025-Mar-01 23:11:51.315450
+# Install dependencies including TypeScript
+2025-Mar-01 23:11:51.315450
+RUN npm install
+2025-Mar-01 23:11:51.315450
+2025-Mar-01 23:11:51.315450
+# Copy source code and static files
+2025-Mar-01 23:11:51.315450
+COPY . .
+2025-Mar-01 23:11:51.315450
+2025-Mar-01 23:11:51.315450
+# Compile TypeScript
+2025-Mar-01 23:11:51.315450
+RUN npx tsc server/index.ts --outDir dist --esModuleInterop true
+2025-Mar-01 23:11:51.315450
+2025-Mar-01 23:11:51.315450
+EXPOSE 5000
+2025-Mar-01 23:11:51.315450
+2025-Mar-01 23:11:51.315450
+# Set production environment
+2025-Mar-01 23:11:51.315450
+ENV NODE_ENV=production \
+2025-Mar-01 23:11:51.315450
+PORT=5000
+2025-Mar-01 23:11:51.315450
+2025-Mar-01 23:11:51.315450
+# Start the server
+2025-Mar-01 23:11:51.315450
+CMD ["node", "dist/index.js"]
+2025-Mar-01 23:11:51.802769
+----------------------------------------
+2025-Mar-01 23:11:51.809621
+Building docker image started.
+2025-Mar-01 23:11:51.816272
+To check the current progress, click on Show Debug Logs.
+2025-Mar-01 23:11:52.788813
+[CMD]: docker exec l4o0w8k84k4s0okkggs4cowc bash -c 'cat /artifacts/build.sh'
+2025-Mar-01 23:11:52.788813
+docker build   --network host -f /artifacts/l4o0w8k84k4s0okkggs4cowc/Dockerfile --build-arg SOURCE_COMMIT='b7166fe81e0f14c1225d3945a7e6cdedad80b895' --build-arg 'COOLIFY_URL=http://dkcco4g4so48skgcs4wo4ssg.45.63.41.92.sslip.io' --build-arg 'COOLIFY_FQDN=dkcco4g4so48skgcs4wo4ssg.45.63.41.92.sslip.io' --build-arg 'COOLIFY_BRANCH="main"' --build-arg 'COOLIFY_RESOURCE_UUID=dkcco4g4so48skgcs4wo4ssg' --build-arg 'COOLIFY_CONTAINER_NAME=dkcco4g4so48skgcs4wo4ssg-231140161461' --progress plain -t dkcco4g4so48skgcs4wo4ssg:b7166fe81e0f14c1225d3945a7e6cdedad80b895 /artifacts/l4o0w8k84k4s0okkggs4cowc
+2025-Mar-01 23:11:53.548174
+[CMD]: docker exec l4o0w8k84k4s0okkggs4cowc bash -c 'bash /artifacts/build.sh'
+2025-Mar-01 23:11:53.548174
+#0 building with "default" instance using docker driver
+2025-Mar-01 23:11:53.548174
+2025-Mar-01 23:11:53.548174
+#1 [internal] load build definition from Dockerfile
+2025-Mar-01 23:11:53.548174
+#1 transferring dockerfile: 441B done
+2025-Mar-01 23:11:53.548174
+#1 DONE 0.0s
+2025-Mar-01 23:11:53.548174
+2025-Mar-01 23:11:53.548174
+#2 [internal] load metadata for docker.io/library/node:20-slim
+2025-Mar-01 23:11:53.994295
+#2 DONE 0.6s
+2025-Mar-01 23:11:54.198214
+#3 [internal] load .dockerignore
+2025-Mar-01 23:11:54.198214
+#3 transferring context: 2B done
+2025-Mar-01 23:11:54.198214
+#3 DONE 0.0s
+2025-Mar-01 23:11:54.198214
+2025-Mar-01 23:11:54.198214
+#4 [1/6] FROM docker.io/library/node:20-slim@sha256:ffc11dbf16dd0abcbb7b837410601b4d5592db2d03741e13a4a5336ab74d7ccb
+2025-Mar-01 23:11:54.198214
+#4 DONE 0.0s
+2025-Mar-01 23:11:54.198214
+2025-Mar-01 23:11:54.198214
+#5 [internal] load build context
+2025-Mar-01 23:11:54.198214
+#5 transferring context: 656.98kB 0.0s done
+2025-Mar-01 23:11:54.198214
+#5 DONE 0.0s
+2025-Mar-01 23:11:54.198214
+2025-Mar-01 23:11:54.198214
+#6 [2/6] WORKDIR /app
+2025-Mar-01 23:11:54.198214
+#6 CACHED
+2025-Mar-01 23:11:54.198214
+2025-Mar-01 23:11:54.198214
+#7 [3/6] COPY package*.json ./
+2025-Mar-01 23:11:54.198214
+#7 CACHED
+2025-Mar-01 23:11:54.198214
+2025-Mar-01 23:11:54.198214
+#8 [4/6] RUN npm install
+2025-Mar-01 23:11:54.198214
+#8 CACHED
+2025-Mar-01 23:11:54.198214
+2025-Mar-01 23:11:54.198214
+#9 [5/6] COPY . .
+2025-Mar-01 23:11:54.198214
+#9 DONE 0.0s
+2025-Mar-01 23:11:54.198214
+2025-Mar-01 23:11:54.198214
+#10 [6/6] RUN npx tsc server/index.ts --outDir dist --esModuleInterop true
+2025-Mar-01 23:12:02.132209
+#10 8.084 server/index.ts(5,34): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', or 'nodenext'.
+2025-Mar-01 23:12:02.191720
+#10 8.084 server/index.ts(27,12): error TS2769: No overload matches this call.
+2025-Mar-01 23:12:02.191720
+#10 8.084   Overload 1 of 6, '(port: number, hostname: string, backlog: number, callback?: () => void): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+2025-Mar-01 23:12:02.191720
+#10 8.084     Argument of type 'string | 5000' is not assignable to parameter of type 'number'.
+2025-Mar-01 23:12:02.191720
+#10 8.084       Type 'string' is not assignable to type 'number'.
+2025-Mar-01 23:12:02.191720
+#10 8.084   Overload 2 of 6, '(port: number, hostname: string, callback?: () => void): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+2025-Mar-01 23:12:02.191720
+#10 8.084     Argument of type 'string | 5000' is not assignable to parameter of type 'number'.
+2025-Mar-01 23:12:02.191720
+#10 8.084       Type 'string' is not assignable to type 'number'.
+2025-Mar-01 23:12:02.191720
+#10 ERROR: process "/bin/sh -c npx tsc server/index.ts --outDir dist --esModuleInterop true" did not complete successfully: exit code: 2
+2025-Mar-01 23:12:02.191720
+------
+2025-Mar-01 23:12:02.191720
+> [6/6] RUN npx tsc server/index.ts --outDir dist --esModuleInterop true:
+2025-Mar-01 23:12:02.191720
+8.084 server/index.ts(5,34): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', or 'nodenext'.
+2025-Mar-01 23:12:02.191720
+8.084 server/index.ts(27,12): error TS2769: No overload matches this call.
+2025-Mar-01 23:12:02.191720
+8.084   Overload 1 of 6, '(port: number, hostname: string, backlog: number, callback?: () => void): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+2025-Mar-01 23:12:02.191720
+8.084     Argument of type 'string | 5000' is not assignable to parameter of type 'number'.
+2025-Mar-01 23:12:02.191720
+8.084       Type 'string' is not assignable to type 'number'.
+2025-Mar-01 23:12:02.191720
+8.084   Overload 2 of 6, '(port: number, hostname: string, callback?: () => void): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+2025-Mar-01 23:12:02.191720
+8.084     Argument of type 'string | 5000' is not assignable to parameter of type 'number'.
+2025-Mar-01 23:12:02.191720
+8.084       Type 'string' is not assignable to type 'number'.
+2025-Mar-01 23:12:02.191720
+------
+2025-Mar-01 23:12:02.200848
+Dockerfile:15
+2025-Mar-01 23:12:02.200848
+--------------------
+2025-Mar-01 23:12:02.200848
+13 |
+2025-Mar-01 23:12:02.200848
+14 |     # Compile TypeScript
+2025-Mar-01 23:12:02.200848
+15 | >>> RUN npx tsc server/index.ts --outDir dist --esModuleInterop true
+2025-Mar-01 23:12:02.200848
+16 |
+2025-Mar-01 23:12:02.200848
+17 |     EXPOSE 5000
+2025-Mar-01 23:12:02.200848
+--------------------
+2025-Mar-01 23:12:02.200848
+ERROR: failed to solve: process "/bin/sh -c npx tsc server/index.ts --outDir dist --esModuleInterop true" did not complete successfully: exit code: 2
+2025-Mar-01 23:12:02.200848
+exit status 1
+2025-Mar-01 23:12:02.326889
+Oops something is not okay, are you okay? 😢
+2025-Mar-01 23:12:02.334076
+#0 building with "default" instance using docker driver
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#1 [internal] load build definition from Dockerfile
+2025-Mar-01 23:12:02.334076
+#1 transferring dockerfile: 441B done
+2025-Mar-01 23:12:02.334076
+#1 DONE 0.0s
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#2 [internal] load metadata for docker.io/library/node:20-slim
+2025-Mar-01 23:12:02.334076
+#2 DONE 0.6s
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#3 [internal] load .dockerignore
+2025-Mar-01 23:12:02.334076
+#3 transferring context: 2B done
+2025-Mar-01 23:12:02.334076
+#3 DONE 0.0s
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#4 [1/6] FROM docker.io/library/node:20-slim@sha256:ffc11dbf16dd0abcbb7b837410601b4d5592db2d03741e13a4a5336ab74d7ccb
+2025-Mar-01 23:12:02.334076
+#4 DONE 0.0s
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#5 [internal] load build context
+2025-Mar-01 23:12:02.334076
+#5 transferring context: 656.98kB 0.0s done
+2025-Mar-01 23:12:02.334076
+#5 DONE 0.0s
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#6 [2/6] WORKDIR /app
+2025-Mar-01 23:12:02.334076
+#6 CACHED
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#7 [3/6] COPY package*.json ./
+2025-Mar-01 23:12:02.334076
+#7 CACHED
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#8 [4/6] RUN npm install
+2025-Mar-01 23:12:02.334076
+#8 CACHED
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#9 [5/6] COPY . .
+2025-Mar-01 23:12:02.334076
+#9 DONE 0.0s
+2025-Mar-01 23:12:02.334076
+2025-Mar-01 23:12:02.334076
+#10 [6/6] RUN npx tsc server/index.ts --outDir dist --esModuleInterop true
+2025-Mar-01 23:12:02.334076
+#10 8.084 server/index.ts(5,34): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', or 'nodenext'.
+2025-Mar-01 23:12:02.334076
+#10 8.084 server/index.ts(27,12): error TS2769: No overload matches this call.
+2025-Mar-01 23:12:02.334076
+#10 8.084   Overload 1 of 6, '(port: number, hostname: string, backlog: number, callback?: () => void): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+2025-Mar-01 23:12:02.334076
+#10 8.084     Argument of type 'string | 5000' is not assignable to parameter of type 'number'.
+2025-Mar-01 23:12:02.334076
+#10 8.084       Type 'string' is not assignable to type 'number'.
+2025-Mar-01 23:12:02.334076
+#10 8.084   Overload 2 of 6, '(port: number, hostname: string, callback?: () => void): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+2025-Mar-01 23:12:02.334076
+#10 8.084     Argument of type 'string | 5000' is not assignable to parameter of type 'number'.
+2025-Mar-01 23:12:02.334076
+#10 8.084       Type 'string' is not assignable to type 'number'.
+2025-Mar-01 23:12:02.334076
+#10 ERROR: process "/bin/sh -c npx tsc server/index.ts --outDir dist --esModuleInterop true" did not complete successfully: exit code: 2
+2025-Mar-01 23:12:02.334076
+------
+2025-Mar-01 23:12:02.334076
+> [6/6] RUN npx tsc server/index.ts --outDir dist --esModuleInterop true:
+2025-Mar-01 23:12:02.334076
+8.084 server/index.ts(5,34): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', or 'nodenext'.
+2025-Mar-01 23:12:02.334076
+8.084 server/index.ts(27,12): error TS2769: No overload matches this call.
+2025-Mar-01 23:12:02.334076
+8.084   Overload 1 of 6, '(port: number, hostname: string, backlog: number, callback?: () => void): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+2025-Mar-01 23:12:02.334076
+8.084     Argument of type 'string | 5000' is not assignable to parameter of type 'number'.
+2025-Mar-01 23:12:02.334076
+8.084       Type 'string' is not assignable to type 'number'.
+2025-Mar-01 23:12:02.334076
+8.084   Overload 2 of 6, '(port: number, hostname: string, callback?: () => void): Server<typeof IncomingMessage, typeof ServerResponse>', gave the following error.
+2025-Mar-01 23:12:02.334076
+8.084     Argument of type 'string | 5000' is not assignable to parameter of type 'number'.
+2025-Mar-01 23:12:02.334076
+8.084       Type 'string' is not assignable to type 'number'.
+2025-Mar-01 23:12:02.334076
+------
+2025-Mar-01 23:12:02.334076
+Dockerfile:15
+2025-Mar-01 23:12:02.334076
+--------------------
+2025-Mar-01 23:12:02.334076
+13 |
+2025-Mar-01 23:12:02.334076
+14 |     # Compile TypeScript
+2025-Mar-01 23:12:02.334076
+15 | >>> RUN npx tsc server/index.ts --outDir dist --esModuleInterop true
