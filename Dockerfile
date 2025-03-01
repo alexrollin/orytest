@@ -5,11 +5,14 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install only production dependencies
-RUN npm install --production
+# Install dependencies including TypeScript
+RUN npm install
 
-# Copy server code and static files
-COPY server ./server
+# Copy source code and static files
+COPY . .
+
+# Compile TypeScript
+RUN npx tsc server/index.ts --outDir dist --esModuleInterop true
 
 EXPOSE 5000
 
@@ -18,4 +21,4 @@ ENV NODE_ENV=production \
     PORT=5000
 
 # Start the server
-CMD ["node", "server/index.js"]
+CMD ["node", "dist/index.js"]
