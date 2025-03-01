@@ -2,8 +2,21 @@
 
 A simple single-page application with an animated button reveal for the Kasm installer download.
 
-## Deployment on Coolify
+## Docker Deployment
 
+1. Build the Docker image:
+```bash
+docker build -t kasm-download .
+```
+
+2. Run the container:
+```bash
+docker run -p 5000:5000 kasm-download
+```
+
+The application will be available at `http://localhost:5000`.
+
+## Deployment on Coolify
 Use the following settings for deployment:
 
 - Build Pack: Nixpack
