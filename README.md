@@ -1,6 +1,11 @@
-# Kasm Installer Download
+# Minimal Express Server
 
-A simple web application for downloading the Kasm installer.
+A minimal Express.js server with Docker support.
+
+## Endpoints
+
+- `/` - Returns "Hello World"
+- `/health` - Returns "OK"
 
 ## Docker Deployment
 
@@ -16,34 +21,30 @@ docker run -p 5000:5000 kasm-download
 
 The application will be available at `http://localhost:5000`.
 
-### Coolify Settings
+## Coolify Deployment Settings
 
-1. Build Pack: Docker
-2. Docker Settings:
-   - Docker Compose: No
+1. Build Settings
+   - Build Pack: Docker
    - Dockerfile Path: ./Dockerfile
-   - Docker Registry: Default
-3. Port: 5000
-4. Environment Variables:
-   - NODE_ENV: production
+   - Docker Compose: No
 
-### Verification Steps
+2. Environment Variables
+   - PORT=5000
+   - NODE_ENV=production
 
-1. Check if the server is running:
-   - Access the health check endpoint at `/health`
-   - Should return "OK" if the server is running
-2. Access the main page:
-   - Should show a download button
-   - Clicking the button should download the installer
+3. Port Configuration
+   - Exposed Port: 5000
 
-### Troubleshooting Deployment
+## Verification Steps
 
-If the deployment fails:
-1. Check if port 5000 is properly exposed
-2. Ensure the build completes successfully
-3. Check the logs for any Node.js related errors
-4. Make sure Docker is selected as the build pack
-5. Try accessing the health check endpoint at `/health`
+1. After deployment, verify these endpoints:
+   - `https://your-domain/health` should return "OK"
+   - `https://your-domain/` should return "Hello World"
+
+2. If endpoints don't respond:
+   - Check Coolify logs for startup errors
+   - Verify environment variables are set correctly
+   - Confirm port 5000 is properly exposed
 
 
 ## Development

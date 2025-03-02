@@ -1,19 +1,25 @@
-FROM node:20-slim
+FROM node:20.11-slim
 
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
-# Copy package files
-COPY package.json ./
+# Create a non-root user
+RUN groupadd -r nodejs && useradd -r -g nodejs nodejs
 
-# Install only production dependencies
-RUN npm install --production
+# Install production dependencies first
+COPY package*.json ./
+RUN npm ci --only=production
 
-# Copy server code
+# Copy app source
 COPY server ./server
 
-EXPOSE 5000
+# Set user
+USER nodejs
 
+# Set environment
 ENV NODE_ENV=production \
     PORT=5000
+
+EXPOSE 5000
 
 CMD ["node", "server/index.js"]
